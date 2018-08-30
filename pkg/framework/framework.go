@@ -17,7 +17,7 @@ limitations under the License.
 package framework
 
 import (
-	internalapi "k8s.io/kubernetes/pkg/kubelet/apis/cri"
+	internalapi "github.com/kubernetes-sigs/cri-tools/kubelet/apis/cri"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
