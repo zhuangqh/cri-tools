@@ -41,6 +41,7 @@ const (
 
 var runtimeClient pb.RuntimeServiceClient
 var imageClient pb.ImageServiceClient
+var volumeClient pb.VolumeServiceClient
 var conn *grpc.ClientConn
 
 type listOptions struct {
@@ -168,6 +169,17 @@ func getImageClient(context *cli.Context) error {
 		return fmt.Errorf("failed to connect: %v", err)
 	}
 	imageClient = pb.NewImageServiceClient(conn)
+	return nil
+}
+
+func getVolumeClient(context *cli.Context) error {
+	// Set up a connection to the server.
+	var err error
+	conn, err = getVolumeClientConnection(context)
+	if err != nil {
+		return fmt.Errorf("failed to connect: %v", err)
+	}
+	volumeClient = pb.NewVolumeServiceClient(conn)
 	return nil
 }
 

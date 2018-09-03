@@ -33,6 +33,7 @@ type Framework struct {
 type InternalAPIClient struct {
 	CRIRuntimeClient internalapi.RuntimeService
 	CRIImageClient   internalapi.ImageManagerService
+	CRIVolumeClient   internalapi.VolumeManagerService
 }
 
 // NewDefaultCRIFramework makes a new framework and sets up a BeforeEach/AfterEach for
