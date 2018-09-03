@@ -22,13 +22,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/pborman/uuid"
 	internalapi "github.com/kubernetes-sigs/cri-tools/kubelet/apis/cri"
-	runtimeapi "github.com/alibaba/pouch/cri/apis/v1alpha2"
 	"github.com/kubernetes-sigs/cri-tools/kubelet/remote"
 
+	runtimeapi "github.com/alibaba/pouch/cri/apis/v1alpha2"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.com/pborman/uuid"
 )
 
 var (
@@ -51,6 +51,9 @@ const (
 
 	// DefaultContainerImage is the default image for container using
 	DefaultContainerImage string = "busybox:1.28"
+
+	// DefaultContainerVolumeImage is the default image for container with volume using
+	DefaultContainerVolumeImage string = "starnop/busybox:vol"
 
 	// DefaultStopContainerTimeout is the default timeout for stopping container
 	DefaultStopContainerTimeout int64 = 60
@@ -86,7 +89,7 @@ func LoadCRIClient() (*InternalAPIClient, error) {
 	return &InternalAPIClient{
 		CRIRuntimeClient: rService,
 		CRIImageClient:   iService,
-		CRIVolumeClient:   vService,
+		CRIVolumeClient:  vService,
 	}, nil
 }
 
