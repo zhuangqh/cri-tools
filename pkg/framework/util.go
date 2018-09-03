@@ -73,9 +73,20 @@ func LoadCRIClient() (*InternalAPIClient, error) {
 		return nil, err
 	}
 
+	var volumeServiceAddr = TestContext.VolumeServiceAddr
+	if volumeServiceAddr == "" {
+		// Fallback to runtime service endpoint
+		volumeServiceAddr = TestContext.RuntimeServiceAddr
+	}
+	vService, err := remote.NewRemoteVolumeService(volumeServiceAddr, TestContext.VolumeServiceTimeout)
+	if err != nil {
+		return nil, err
+	}
+
 	return &InternalAPIClient{
 		CRIRuntimeClient: rService,
 		CRIImageClient:   iService,
+		CRIVolumeClient:   vService,
 	}, nil
 }
 

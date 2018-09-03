@@ -117,3 +117,11 @@ type ImageManagerService interface {
 	// ImageFsInfo returns information of the filesystem that is used to store images.
 	ImageFsInfo() ([]*runtimeapi.FilesystemUsage, error)
 }
+
+// VolumeManagerService interface should be implemented by a container volume
+// manager.
+// The methods should be thread-safe.
+type VolumeManagerService interface {
+	// RemoveVolume removes the volume.
+	RemoveVolume(volumeName string) error
+}
