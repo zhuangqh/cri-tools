@@ -130,6 +130,18 @@ var _ = framework.KubeDescribe("Container", func() {
 			expectedLogMessage := "hello\n"
 			verifyExecSyncOutput(rc, containerID, cmd, expectedLogMessage)
 		})
+
+		It("runtime should support execSync with wrong command [Conformance]", func() {
+			By("create container")
+			containerID := framework.CreateDefaultContainer(rc, ic, podID, podConfig, "container-for-execSync-test-")
+
+			By("start container")
+			startContainer(rc, containerID)
+
+			By("test execSync")
+			cmd := []string{"not-exist-command"}
+			verifyExecSyncContainOutput(rc, containerID, cmd)
+		})
 	})
 
 	Context("runtime should support adding volume and device", func() {
@@ -379,6 +391,14 @@ func verifyExecSyncOutput(c internalapi.RuntimeService, containerID string, comm
 	stdout := execSyncContainer(c, containerID, command)
 	Expect(stdout).To(Equal(expectedLogMessage), "The stdout output of execSync should be %s", expectedLogMessage)
 	framework.Logf("verfiy Execsync output succeed")
+}
+
+// execSyncContainer test execSync for containerID and make sure the response is right.
+func verifyExecSyncContainOutput(c internalapi.RuntimeService, containerID string, command []string) {
+	By("verify execSync containOutput")
+	_, _, err := c.ExecSync(containerID, command, time.Duration(defaultExecSyncTimeout)*time.Second)
+	Expect(err).To(HaveOccurred())
+	framework.Logf("verfiy Execsync containOutput succeed")
 }
 
 // createHostPath creates the hostPath and flagFile for volume.
