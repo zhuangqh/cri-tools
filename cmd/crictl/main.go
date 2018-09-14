@@ -134,6 +134,7 @@ func main() {
 		listContainersCommand,
 		pullImageCommand,
 		runPodCommand,
+		startPodCommand,
 		removeContainerCommand,
 		removeImageCommand,
 		removeVolumeCommand,
