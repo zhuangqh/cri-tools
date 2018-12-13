@@ -23,6 +23,10 @@ set -o pipefail
 cd $GOPATH/src/k8s.io/kubernetes
 if [ ${TRAVIS_BRANCH:-"master"} != "master" ]; then
   # We can do this because cri-tools have the same branch name with kubernetes.
+  if [ ${TRAVIS_BRANCH} == "tools-dev" ]; then
+      # make sure branch name is consistent with kubernetes.
+      TRAVIS_BRANCH="release-1.11"
+  fi
   git checkout "${TRAVIS_BRANCH}"
 fi
 make WHAT='cmd/kubelet'
