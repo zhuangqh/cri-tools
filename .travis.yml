@@ -7,12 +7,9 @@ go:
 
 go_import_path: github.com/kubernetes-sigs/cri-tools
 
-services:
-  - docker
-
 before_install:
-  - hack/install-docker.sh
-  - hack/install-kubelet.sh
+  - sudo env PATH=$PATH GOPATH=$GOPATH hack/install-cni.sh
+  - sudo env PATH=$PATH GOPATH=$GOPATH hack/install-pouch.sh
 
 install:
   - make install.tools
@@ -29,4 +26,5 @@ jobs:
     - stage: Test
       script:
         - make
-        - sudo env PATH=$PATH GOPATH=$GOPATH hack/run-critest.sh
+        - sudo env PATH=$PATH GOPATH=$GOPATH hack/run-pouch.sh "v1alpha2"
+        - sudo env PATH=$PATH GOPATH=$GOPATH hack/run-critest.sh "v1alpha2"
