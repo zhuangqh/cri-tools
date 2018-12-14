@@ -22,10 +22,10 @@ import (
 	"time"
 
 	timetypes "github.com/docker/docker/api/types/time"
+	"github.com/kubernetes-sigs/cri-tools/kubelet/kuberuntime/logs"
 	"github.com/urfave/cli"
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"github.com/kubernetes-sigs/cri-tools/kubelet/kuberuntime/logs"
 )
 
 var logsCommand = cli.Command{

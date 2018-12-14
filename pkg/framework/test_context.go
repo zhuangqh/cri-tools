@@ -31,8 +31,8 @@ type TestContextType struct {
 	ReportPrefix string
 
 	// CRI client configurations.
-	VolumeServiceAddr      string
-	VolumeServiceTimeout   time.Duration
+	VolumeServiceAddr     string
+	VolumeServiceTimeout  time.Duration
 	ImageServiceAddr      string
 	ImageServiceTimeout   time.Duration
 	RuntimeServiceAddr    string

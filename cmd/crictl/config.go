@@ -32,7 +32,7 @@ import (
 type Config struct {
 	RuntimeEndpoint string `yaml:"runtime-endpoint"`
 	ImageEndpoint   string `yaml:"image-endpoint"`
-	VolumeEndpoint   string `yaml:"volume-endpoint"`
+	VolumeEndpoint  string `yaml:"volume-endpoint"`
 	Timeout         int    `yaml:"timeout"`
 	Debug           bool   `yaml:"debug"`
 }

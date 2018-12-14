@@ -22,10 +22,10 @@ import (
 	"path"
 	"path/filepath"
 
+	runtimeapi "github.com/alibaba/pouch/cri/apis/v1alpha2"
+	internalapi "github.com/kubernetes-sigs/cri-tools/kubelet/apis/cri"
 	"github.com/kubernetes-sigs/cri-tools/pkg/framework"
 	"golang.org/x/sys/unix"
-	internalapi "github.com/kubernetes-sigs/cri-tools/kubelet/apis/cri"
-	runtimeapi "github.com/alibaba/pouch/cri/apis/v1alpha2"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

@@ -25,13 +25,13 @@ import (
 	"sort"
 	"strings"
 
+	pb "github.com/alibaba/pouch/cri/apis/v1alpha2"
 	"github.com/ghodss/yaml"
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"
 	"github.com/urfave/cli"
 	"google.golang.org/grpc"
 	utilyaml "k8s.io/apimachinery/pkg/util/yaml"
-	pb "github.com/alibaba/pouch/cri/apis/v1alpha2"
 )
 
 const (

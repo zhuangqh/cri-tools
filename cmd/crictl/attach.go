@@ -21,10 +21,10 @@ import (
 	"net/url"
 	"strings"
 
+	pb "github.com/alibaba/pouch/cri/apis/v1alpha2"
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 	"golang.org/x/net/context"
-	pb "github.com/alibaba/pouch/cri/apis/v1alpha2"
 )
 
 var runtimeAttachCommand = cli.Command{
