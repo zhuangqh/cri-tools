@@ -59,12 +59,10 @@ var _ = framework.KubeDescribe("Container", func() {
 
 	var rc internalapi.RuntimeService
 	var ic internalapi.ImageManagerService
-	var vc internalapi.VolumeManagerService
 
 	BeforeEach(func() {
 		rc = f.CRIClient.CRIRuntimeClient
 		ic = f.CRIClient.CRIImageClient
-		vc = f.CRIClient.CRIVolumeClient
 	})
 
 	Context("runtime should support basic operations on container", func() {
@@ -375,16 +373,6 @@ var _ = framework.KubeDescribe("Container", func() {
 func containerFound(containers []*runtimeapi.Container, containerID string) bool {
 	for _, container := range containers {
 		if container.Id == containerID {
-			return true
-		}
-	}
-	return false
-}
-
-// mountFound returns whether mounts is found.
-func mountFound(mounts []*runtimeapi.Mount, mountName string) bool {
-	for _, mount := range mounts {
-		if mount.Name == mountName {
 			return true
 		}
 	}

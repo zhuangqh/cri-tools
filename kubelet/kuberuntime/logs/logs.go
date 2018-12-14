@@ -49,7 +49,7 @@ const (
 	// timeFormat is the time format used in the log.
 	timeFormat = time.RFC3339Nano
 	// blockSize is the block size used in tail.
-	blockSize = 1024
+	// blockSize = 1024
 
 	// stateCheckPeriod is the period to check container state while following
 	// the container log. Kubelet should not keep following the log when the
@@ -288,6 +288,7 @@ func ReadLogs(path, containerID string, opts *LogOptions, runtimeService interna
 	var watcher *fsnotify.Watcher
 	var parse parseFunc
 	var stop bool
+	var found bool
 	writer := newLogWriter(stdout, stderr, opts)
 	msg := &logMessage{}
 	for {
@@ -303,7 +304,7 @@ func ReadLogs(path, containerID string, opts *LogOptions, runtimeService interna
 			if opts.follow {
 				// Reset seek so that if this is an incomplete line,
 				// it will be read again.
-				if _, err := f.Seek(-int64(len(l)), io.SeekCurrent); err != nil {
+				if _, err = f.Seek(-int64(len(l)), io.SeekCurrent); err != nil {
 					return fmt.Errorf("failed to reset seek in log file %q: %v", path, err)
 				}
 				if watcher == nil {
@@ -312,12 +313,12 @@ func ReadLogs(path, containerID string, opts *LogOptions, runtimeService interna
 						return fmt.Errorf("failed to create fsnotify watcher: %v", err)
 					}
 					defer watcher.Close()
-					if err := watcher.Add(f.Name()); err != nil {
+					if err = watcher.Add(f.Name()); err != nil {
 						return fmt.Errorf("failed to watch file %q: %v", f.Name(), err)
 					}
 				}
 				// Wait until the next log change.
-				if found, err := waitLogs(containerID, watcher, runtimeService); !found {
+				if found, err = waitLogs(containerID, watcher, runtimeService); !found {
 					return err
 				}
 				continue

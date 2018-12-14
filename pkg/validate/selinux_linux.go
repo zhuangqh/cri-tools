@@ -20,10 +20,10 @@ import (
 	"fmt"
 	"time"
 
+	runtimeapi "github.com/alibaba/pouch/cri/apis/v1alpha2"
+	internalapi "github.com/kubernetes-sigs/cri-tools/kubelet/apis/cri"
 	"github.com/kubernetes-sigs/cri-tools/pkg/framework"
 	"github.com/opencontainers/selinux/go-selinux"
-	internalapi "github.com/kubernetes-sigs/cri-tools/kubelet/apis/cri"
-	runtimeapi "github.com/alibaba/pouch/cri/apis/v1alpha2"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

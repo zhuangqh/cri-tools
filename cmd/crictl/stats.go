@@ -23,11 +23,11 @@ import (
 	"text/tabwriter"
 	"time"
 
+	pb "github.com/alibaba/pouch/cri/apis/v1alpha2"
 	units "github.com/docker/go-units"
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 	"golang.org/x/net/context"
-	pb "github.com/alibaba/pouch/cri/apis/v1alpha2"
 )
 
 type statsOptions struct {
