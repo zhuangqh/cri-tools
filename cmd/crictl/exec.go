@@ -21,6 +21,7 @@ import (
 	"net/url"
 	"strings"
 
+	pb "github.com/alibaba/pouch/cri/apis/v1alpha2"
 	dockerterm "github.com/docker/docker/pkg/term"
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
@@ -28,7 +29,6 @@ import (
 	restclient "k8s.io/client-go/rest"
 	remoteclient "k8s.io/client-go/tools/remotecommand"
 	"k8s.io/kubernetes/pkg/kubectl/util/term"
-	pb "github.com/alibaba/pouch/cri/apis/v1alpha2"
 )
 
 const (

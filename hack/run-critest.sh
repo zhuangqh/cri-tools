@@ -14,24 +14,55 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Run critest with default dockershim.
+# Run critest with pouch.
 
 set -o errexit
 set -o nounset
 set -o pipefail
 
-# Install nsenter
-docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
+# CRI_SKIP skips the test to skip.
+DEFAULT_CRI_SKIP="bucket"
+DEFAULT_CRI_SKIP="${DEFAULT_CRI_SKIP}|seccomp localhost"
+DEFAULT_CRI_SKIP="${DEFAULT_CRI_SKIP}|runtime should support apparmor"
+DEFAULT_CRI_SKIP="${DEFAULT_CRI_SKIP}|should error on create with wrong options"
+DEFAULT_CRI_SKIP="${DEFAULT_CRI_SKIP}|runtime should support reopening container log"
+CRI_SKIP="${CRI_SKIP:-"${DEFAULT_CRI_SKIP}"}"
 
-# Start dockershim first
-/usr/local/bin/kubelet --v=3 --logtostderr --experimental-dockershim &
+# CRI_FOCUS focuses the test to run.
+# With the CRI manager completes its function, we may need to expand this field.
+CRI_FOCUS=${CRI_FOCUS:-}
 
-# Wait a while for dockershim starting.
-sleep 10
+POUCH_SOCK="/var/run/pouchcri.sock"
+
+# tmplog_dir stores the background job log data
+tmplog_dir="$(mktemp -d /tmp/integration-daemon-cri-testing-XXXXX)"
+pouchd_log="${tmplog_dir}/pouchd.log"
+trap 'rm -rf /tmp/integration-daemon-cri-testing-*' EXIT
 
 # Run e2e test cases
-# Skip reopen container log test because docker doesn't support it.
-critest -ginkgo.skip="runtime should support reopening container log" -parallel 8
+critest::run_e2e() {
+    cri_runtime=$1
+    if [[ "${cri_runtime}" == "v1alpha1" ]]; then
+      critest --runtime-endpoint=${POUCH_SOCK} \
+        --focus="${CRI_FOCUS}" --ginkgo-flags="--skip=\"${CRI_SKIP}\"" validation
+    else
+      critest --runtime-endpoint=${POUCH_SOCK} \
+        --ginkgo.focus="${CRI_FOCUS}" --ginkgo.skip="${CRI_SKIP}"
+    fi
 
-# Run benchmark test cases
-critest -benchmark
+    code=$?
+
+    if [[ "${code}" != "0" ]]; then
+        echo "failed to pass cri e2e cases!"
+        echo "there is daemon logs..."
+        cat "${pouchd_log}"
+        exit ${code}
+    fi
+}
+
+main() {
+    cri_runtime=$1
+    critest::run_e2e "${cri_runtime}"
+}
+
+main "$@"

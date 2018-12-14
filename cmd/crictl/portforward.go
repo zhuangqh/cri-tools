@@ -24,13 +24,13 @@ import (
 	"os/signal"
 	"strings"
 
+	pb "github.com/alibaba/pouch/cri/apis/v1alpha2"
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 	"golang.org/x/net/context"
 	restclient "k8s.io/client-go/rest"
 	portforward "k8s.io/client-go/tools/portforward"
 	"k8s.io/client-go/transport/spdy"
-	pb "github.com/alibaba/pouch/cri/apis/v1alpha2"
 )
 
 var runtimePortForwardCommand = cli.Command{
