@@ -71,10 +71,16 @@ pouch::run() {
   cri_runtime=$1
   tmplog_dir="$(mktemp -d /tmp/integration-daemon-cri-testing-XXXXX)"
   pouchd_log="${tmplog_dir}/pouchd.log"
-  sandbox_img="gcr.io/google_containers/pause-amd64:3.0"
-  flags="--enable-cri --cri-version ${cri_runtime} --sandbox-image=${sandbox_img}"
 
-  pouchd ${flags} > $pouchd_log 2>&1 &
+  # daemon cri integration coverage profile
+  coverage_profile="${WORKDIR}/coverage/integration_daemon_cri_${cri_runtime}_profile.out"
+  rm -rf "${coverage_profile}"
+
+  sandbox_img="gcr.io/google_containers/pause-amd64:3.0"
+  flags=" -test.coverprofile=${coverage_profile} DEVEL"
+  flags="${flags} --enable-cri --cri-version ${cri_runtime} --sandbox-image=${sandbox_img}"
+
+  ${WORKDIR}/bin/pouchd-integration ${flags} > $pouchd_log 2>&1 &
 
   # Wait a while for pouch daemon starting
   sleep 10

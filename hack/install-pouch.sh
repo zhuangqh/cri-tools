@@ -19,7 +19,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-POUCH_VERSION="1.0.0"
+POUCH_VERSION="5e2c01d0"
 POUCH_REPO=github.com/alibaba/pouch
 WORKDIR="${GOPATH}/src/${POUCH_REPO}"
 
@@ -47,7 +47,8 @@ pouch::install() {
   if [ ! -d "${WORKDIR}" ]; then
     mkdir -p "${WORKDIR}"
     cd "${WORKDIR}"
-    git clone -b ${POUCH_VERSION} https://${POUCH_REPO} .
+    git clone https://${POUCH_REPO} .
+    git checkout ${POUCH_VERSION}
   fi
 
   cd "${WORKDIR}"
