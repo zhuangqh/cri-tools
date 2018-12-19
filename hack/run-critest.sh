@@ -20,10 +20,6 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-# CRI_SKIP skips the test to skip.
-DEFAULT_CRI_SKIP="should error on create with wrong options"
-CRI_SKIP="${CRI_SKIP:-"${DEFAULT_CRI_SKIP}"}"
-
 # CRI_FOCUS focuses the test to run.
 # With the CRI manager completes its function, we may need to expand this field.
 CRI_FOCUS=${CRI_FOCUS:-}
@@ -40,10 +36,10 @@ critest::run_e2e() {
     cri_runtime=$1
     if [[ "${cri_runtime}" == "v1alpha1" ]]; then
       critest --runtime-endpoint=${POUCH_SOCK} \
-        --focus="${CRI_FOCUS}" --ginkgo-flags="--skip=\"${CRI_SKIP}\"" validation
+        --focus="${CRI_FOCUS}"  validation
     else
       critest --runtime-endpoint=${POUCH_SOCK} \
-        --ginkgo.focus="${CRI_FOCUS}" --ginkgo.skip="${CRI_SKIP}"
+        --ginkgo.focus="${CRI_FOCUS}"
     fi
 
     code=$?
