@@ -17,7 +17,6 @@ limitations under the License.
 package main
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"time"
@@ -92,7 +91,7 @@ var logsCommand = cli.Command{
 		if logPath == "" {
 			return fmt.Errorf("The container has not set log path")
 		}
-		return logs.ReadLogs(context.Background(), logPath, status.GetId(), logOptions, runtimeService, os.Stdout, os.Stderr)
+		return logs.ReadLogs(logPath, status.GetId(), logOptions, runtimeService, os.Stdout, os.Stderr)
 	},
 	After: closeConnection,
 }

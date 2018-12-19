@@ -31,7 +31,7 @@ import (
 	"github.com/kubernetes-sigs/cri-tools/pkg/framework"
 
 	runtimeapi "github.com/alibaba/pouch/cri/apis/v1alpha2"
-	"github.com/docker/docker/pkg/jsonlog"
+	"github.com/docker/docker/daemon/logger/jsonfilelog/jsonlog"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
